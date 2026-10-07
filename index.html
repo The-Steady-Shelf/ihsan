@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ihsan · Quran Reflection Companion</title>
+<meta name="description" content="A private, offline Quran reflection companion. Name what you feel, receive a verse, a reflection and one grounded action.">
+<style>
+:root{
+  --emerald:#0B3D2E; --emerald-mid:#154736; --emerald-soft:#2C6B52;
+  --gold:#B8912A; --gold-light:#D9B95C;
+  --beige:#F6F0E4; --beige-warm:#EFE4CC; --card:#FFFDF8;
+  --ink:#1C2620; --ink-soft:#54615A; --line:rgba(11,61,46,0.14); --danger:#9C3B2E;
+  --serif:'Lora','Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif;
+  --sans:'Poppins','Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--beige);color:var(--ink);font-family:var(--sans);
+  -webkit-font-smoothing:antialiased;min-height:100vh}
+.hidden{display:none !important}
+button{font-family:inherit}
+.eyebrow{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);font-weight:600}
+
+.weave{width:100%;height:22px;display:block}
+.weave path{stroke:var(--gold);stroke-width:1.4;fill:none;opacity:0.7}
+
+.topnav{position:sticky;top:0;z-index:20;background:var(--emerald);
+  border-bottom:1px solid rgba(217,185,92,0.25)}
+.topnav-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;
+  justify-content:space-between;padding:14px 24px;gap:10px}
+.brand-mark{font-family:var(--serif);font-size:20px;color:var(--beige);display:flex;
+  align-items:center;gap:10px;cursor:pointer;background:none;border:none;padding:0}
+.brand-mark .dot{width:7px;height:7px;border-radius:50%;background:var(--gold-light)}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap}
+.nav-btn{background:none;border:none;cursor:pointer;color:rgba(246,240,228,0.72);
+  font-size:13.5px;font-weight:500;padding:8px 14px;border-radius:20px;transition:.15s}
+.nav-btn:hover{background:rgba(217,185,92,0.12);color:var(--beige)}
+.nav-btn.active{background:rgba(217,185,92,0.18);color:var(--gold-light)}
+
+.view{max-width:960px;margin:0 auto;padding:44px 24px 90px}
+
+/* landing */
+.hero{background:var(--emerald);padding:80px 24px 0;position:relative;overflow:hidden}
+.hero-inner{max-width:760px;margin:0 auto;text-align:center}
+.hero .eyebrow{color:var(--gold-light)}
+.hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(38px,7vw,62px);
+  color:var(--beige);margin:14px 0 6px}
+.hero .tagline{font-family:var(--serif);font-style:italic;font-size:19px;
+  color:var(--gold-light);margin:0 0 22px}
+.hero p.desc{font-size:16px;line-height:1.75;color:rgba(246,240,228,0.82);
+  max-width:560px;margin:0 auto 34px}
+.cta-row{display:flex;gap:14px;justify-content:center;margin-bottom:54px;flex-wrap:wrap}
+.btn{font-weight:600;font-size:14.5px;padding:13px 26px;border-radius:8px;cursor:pointer;
+  border:1px solid transparent;transition:.15s}
+.btn:active{transform:scale(.98)}
+.btn-gold{background:var(--gold);color:#fff}
+.btn-gold:hover{background:var(--gold-light);color:var(--emerald)}
+.btn-ghost-dark{background:transparent;color:var(--beige);border-color:rgba(246,240,228,0.35)}
+.btn-ghost-dark:hover{border-color:var(--gold-light);color:var(--gold-light)}
+.btn-outline{background:transparent;color:var(--emerald);border-color:var(--emerald)}
+.btn-outline:hover{background:var(--emerald);color:var(--beige)}
+.btn-primary{background:var(--emerald);color:var(--beige)}
+.btn-primary:hover{background:var(--emerald-mid)}
+.btn-sm{padding:8px 15px;font-size:12.5px;border-radius:7px}
+.btn-quiet{background:transparent;border-color:var(--line);color:var(--ink-soft)}
+.btn-quiet:hover{border-color:var(--emerald);color:var(--emerald)}
+.btn-danger{background:transparent;border-color:rgba(156,59,46,.4);color:var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.hero-verse{max-width:520px;margin:0 auto;padding:0 0 60px}
+.hero-verse blockquote{font-family:var(--serif);font-size:18px;font-style:italic;
+  color:var(--gold-light);line-height:1.8;margin:0 0 8px;
+  border-top:1px solid rgba(217,185,92,0.25);border-bottom:1px solid rgba(217,185,92,0.25);padding:20px 0}
+.hero-verse cite{font-style:normal;font-size:12.5px;color:rgba(246,240,228,0.55)}
+.section{padding:60px 24px}
+.section-inner{max-width:860px;margin:0 auto}
+.section h2{font-family:var(--serif);font-size:30px;color:var(--emerald);margin:8px 0 14px}
+.section p.lede{font-size:15.5px;line-height:1.75;color:var(--ink-soft);max-width:620px;margin:0 0 34px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:18px}
+.feature-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px}
+.feature-card .num{font-family:var(--serif);font-size:13px;color:var(--gold);font-weight:700}
+.feature-card h3{font-size:15.5px;margin:8px 0 6px;color:var(--emerald)}
+.feature-card p{font-size:13.5px;color:var(--ink-soft);line-height:1.65;margin:0}
+.footer-cta{background:var(--beige-warm);text-align:center;padding:66px 24px;border-top:1px solid var(--line)}
+.footer-cta h2{font-family:var(--serif);font-size:28px;color:var(--emerald);margin:0 0 10px}
+.footer-cta p{color:var(--ink-soft);font-size:14.5px;margin:0 0 24px}
+.disclaimer-strip{text-align:center;font-size:12px;color:rgba(246,240,228,0.5);padding:18px 24px 42px;line-height:1.7}
+
+/* select */
+.view-header h1{font-family:var(--serif);font-size:30px;color:var(--emerald);margin:6px 0 8px}
+.view-header p{color:var(--ink-soft);font-size:14.5px;max-width:600px;line-height:1.65;margin:0}
+.free-text{margin:26px 0 30px;background:var(--card);border:1px solid var(--line);
+  border-radius:10px;padding:16px}
+.free-text label{font-size:12.5px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:8px}
+textarea,input[type=text]{width:100%;border:1px solid var(--line);border-radius:7px;
+  font-family:var(--sans);font-size:14px;padding:10px 12px;background:#fff;color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+textarea:focus,input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.match-result{margin-top:14px;padding:14px 16px;border-radius:12px;background:var(--beige);color:var(--ink);font-size:14px;line-height:1.55}
+.match-result p{margin:0 0 10px}
+.match-chips{display:flex;flex-wrap:wrap;gap:8px}
+.match-chips button{font:inherit;font-size:13.5px;padding:7px 14px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;cursor:pointer}
+.free-text-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:10px;flex-wrap:wrap}
+.hint-small{font-size:12px;color:var(--ink-soft)}
+.group-label{font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--emerald-soft);margin:30px 0 12px}
+.emotion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.emotion-card{background:var(--card);border:1px solid var(--line);border-radius:9px;
+  padding:14px 12px;cursor:pointer;text-align:left;transition:.14s}
+.emotion-card:hover{border-color:var(--gold);transform:translateY(-1px)}
+.emotion-card .name{font-size:14px;font-weight:600;color:var(--emerald);display:block;margin-bottom:2px}
+.emotion-card .hint{font-size:11.5px;color:var(--ink-soft)}
+
+/* reflection */
+.refl-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:34px 32px}
+.refl-tag{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:0.06em;
+  text-transform:uppercase;color:var(--emerald);background:var(--beige-warm);
+  padding:5px 12px;border-radius:20px;margin-bottom:14px}
+.refl-card h1{font-family:var(--serif);font-size:28px;color:var(--emerald);margin:0 0 4px}
+.verse-block{margin:22px 0;padding:20px 22px;background:var(--beige);
+  border-left:3px solid var(--gold);border-radius:0 8px 8px 0}
+.verse-block .verse-text{font-family:var(--serif);font-size:17px;font-style:italic;
+  color:var(--emerald);line-height:1.75;margin:0 0 8px}
+.verse-block .verse-ref{font-size:12px;color:var(--ink-soft);font-weight:600;margin:0}
+.refl-section{margin:20px 0}
+.refl-section h4{font-size:11.5px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;
+  color:var(--gold);margin:0 0 8px}
+.refl-section p{font-size:14.5px;line-height:1.78;color:var(--ink);margin:0}
+.action-box{background:var(--emerald);color:var(--beige);border-radius:10px;padding:18px 20px;margin:24px 0}
+.action-box h4{color:var(--gold-light);font-size:11.5px;letter-spacing:0.09em;
+  text-transform:uppercase;margin:0 0 8px;font-weight:700}
+.action-box p{margin:0;font-size:14px;line-height:1.7}
+.prompt-list{list-style:none;padding:0;margin:0}
+.prompt-list li{font-size:14px;line-height:1.6;color:var(--ink);padding:9px 0 9px 20px;
+  border-bottom:1px solid var(--line);position:relative}
+.prompt-list li:last-child{border-bottom:none}
+.prompt-list li::before{content:"·";position:absolute;left:6px;color:var(--gold);font-weight:700}
+.journal-entry-box{margin-top:28px;border-top:1px solid var(--line);padding-top:24px}
+.journal-entry-box label{font-size:12.5px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:8px}
+.journal-entry-box textarea{min-height:120px}
+.row-end{display:flex;justify-content:space-between;align-items:center;margin-top:12px;flex-wrap:wrap;gap:10px}
+.save-msg{font-size:13px;color:var(--emerald-soft);font-weight:600}
+.save-msg.err{color:var(--danger)}
+.back-link{background:none;border:none;cursor:pointer;color:var(--ink-soft);font-size:13px;
+  font-weight:500;display:flex;align-items:center;gap:6px;padding:0;margin-bottom:20px}
+.back-link:hover{color:var(--emerald)}
+
+/* journal */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:24px 0 8px}
+.toolbar input[type=text]{flex:1;min-width:190px}
+select{font-family:var(--sans);font-size:13.5px;padding:9px 11px;border:1px solid var(--line);
+  border-radius:7px;background:#fff;color:var(--ink)}
+.entry-list{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.entry-item{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.entry-item .meta{display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:8px;flex-wrap:wrap;gap:8px}
+.entry-item .em{font-size:13.5px;font-weight:600;color:var(--emerald)}
+.entry-item .date{font-size:12px;color:var(--ink-soft)}
+.entry-item .txt{font-size:14px;line-height:1.7;color:var(--ink);margin:0;white-space:pre-wrap}
+.entry-item .vref{font-size:11.5px;color:var(--gold);margin:8px 0 0;font-weight:600}
+.entry-actions{display:flex;gap:8px;margin-top:12px}
+.link-btn{background:none;border:none;cursor:pointer;font-size:12px;color:var(--ink-soft);
+  padding:0;text-decoration:underline}
+.link-btn:hover{color:var(--emerald)}
+.link-btn.danger:hover{color:var(--danger)}
+.empty-state{text-align:center;padding:56px 20px;color:var(--ink-soft);background:var(--card);
+  border:1px dashed var(--line);border-radius:12px}
+.empty-state h3{font-family:var(--serif);color:var(--emerald);font-size:20px;margin:0 0 8px}
+.empty-state p{font-size:14px;margin:0 0 20px}
+
+/* dashboard */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:24px 0 36px}
+.stat-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.stat-card .label{font-size:12px;color:var(--ink-soft);font-weight:500}
+.stat-card .value{font-family:var(--serif);font-size:30px;color:var(--emerald);margin-top:4px;line-height:1.2}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.bar-name{font-size:13px;color:var(--ink);width:132px;flex-shrink:0}
+.bar-track{display:block;flex:1;height:10px;background:var(--beige-warm);border-radius:6px;overflow:hidden}
+.bar-fill{display:block;height:100%;background:var(--emerald-soft);border-radius:6px}
+.bar-val{font-size:12px;color:var(--ink-soft);width:24px;text-align:right}
+.cal{display:grid;grid-template-columns:repeat(15,1fr);gap:5px;margin-top:14px;max-width:460px}
+.cal-cell{aspect-ratio:1/1;border-radius:3px;background:var(--beige-warm)}
+.cal-cell.on{background:var(--emerald-soft)}
+.cal-legend{font-size:11.5px;color:var(--ink-soft);margin-top:10px}
+
+/* data / settings */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:22px 24px;margin-bottom:16px}
+.panel h3{font-family:var(--serif);font-size:19px;color:var(--emerald);margin:0 0 8px}
+.panel p{font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin:0 0 16px}
+.panel-row{display:flex;gap:10px;flex-wrap:wrap}
+.notice{background:var(--beige-warm);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;
+  padding:14px 18px;font-size:13px;line-height:1.7;color:var(--ink);margin-top:8px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:26px;background:var(--emerald);
+  color:var(--beige);padding:12px 22px;border-radius:24px;font-size:13.5px;z-index:80;
+  box-shadow:0 6px 24px rgba(11,61,46,.28);opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.show{opacity:1}
+
+@media (max-width:620px){
+  .hero{padding-top:52px}
+  .refl-card{padding:24px 18px}
+  .topnav-inner{padding:12px 14px}
+  .nav-btn{padding:7px 9px;font-size:12.5px}
+  .bar-name{width:100px}
+  .cal{grid-template-columns:repeat(10,1fr)}
+}
+@media print{
+  .topnav,.cta-row,.footer-cta,.toolbar,.entry-actions,.back-link,.journal-entry-box,.no-print{display:none !important}
+  body{background:#fff}
+  .view{padding:0}
+  .entry-item{break-inside:avoid;border:none;border-bottom:1px solid #ddd;border-radius:0}
+}
+</style>
+</head>
+<body>
+
+<svg class="weave" viewBox="0 0 400 22" preserveAspectRatio="none" aria-hidden="true"><path d="M0 11 L12 2 L24 11 L36 20 L48 11 L60 2 L72 11 L84 20 L96 11 L108 2 L120 11 L132 20 L144 11 L156 2 L168 11 L180 20 L192 11 L204 2 L216 11 L228 20 L240 11 L252 2 L264 11 L276 20 L288 11 L300 2 L312 11 L324 20 L336 11 L348 2 L360 11 L372 20 L384 11 L396 2 L400 11"/></svg>
+
+<nav class="topnav hidden" id="topnav">
+  <div class="topnav-inner">
+    <button class="brand-mark" onclick="goTo('landing')"><span class="dot"></span>Ihsan</button>
+    <div class="nav-links">
+      <button class="nav-btn" data-view="select">Reflect</button>
+      <button class="nav-btn" data-view="journal">Journal</button>
+      <button class="nav-btn" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="data">Data</button>
+    </div>
+  </div>
+</nav>
+
+<div id="view-landing" class="view-wrap">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">A reflection companion, not a fatwa</div>
+      <h1>Ihsan</h1>
+      <p class="tagline">Sit with what you feel. Return to what grounds you.</p>
+      <p class="desc">Tell Ihsan what you're carrying today, in your own words or by choosing a
+      feeling, and it finds the verse for you: one verse of the Quran matched to that exact
+      state, a short reflection, one grounded action, and three questions to write into. So you can
+      process, not just cope.</p>
+      <div class="cta-row">
+        <button class="btn btn-gold" onclick="goTo('select')">Begin a reflection</button>
+        <button class="btn btn-ghost-dark" onclick="goTo('journal')">Open my journal</button>
+      </div>
+    </div>
+    <div class="hero-verse">
+      <blockquote>“Verily, in the remembrance of Allah do hearts find rest.”</blockquote>
+      <cite>Surah Ar-Ra'd 13:28 · meaning</cite>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-inner">
+      <div class="eyebrow">How it works</div>
+      <h2>Four steps, one quiet moment</h2>
+      <p class="lede">Runs entirely on your own device. No account and no sign up. Your reflections
+      are saved privately in this browser and never leave it.</p>
+      <div class="feature-grid">
+        <div class="feature-card"><span class="num">01</span><h3>Say how you feel</h3><p>Write what's on your mind in your own words, or choose from 26 feelings. Ihsan reads your words and finds the closest one.</p></div>
+        <div class="feature-card"><span class="num">02</span><h3>Find your verse</h3><p>Every feeling has its own fixed verse, reviewed by hand, with a short reflection, one action and three prompts. Nothing is generated.</p></div>
+        <div class="feature-card"><span class="num">03</span><h3>Write it down</h3><p>Capture your own thoughts alongside the reflection, in a private running journal.</p></div>
+        <div class="feature-card"><span class="num">04</span><h3>Watch the pattern</h3><p>Your dashboard shows what you keep feeling and how often you return.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-cta">
+    <h2>Your feelings deserve more than a distraction.</h2>
+    <p>Begin your first reflection. It takes less than a minute.</p>
+    <button class="btn btn-outline" onclick="goTo('select')">Begin a reflection</button>
+  </div>
+  <div style="background:var(--emerald)">
+    <div class="disclaimer-strip">Ihsan is a personal reflection tool. Verse lines are English
+    renderings of meaning, not the Quran itself.<br>It does not replace guidance from a qualified
+    scholar, a doctor, or a mental-health professional.</div>
+  </div>
+</div>
+
+<div id="view-select" class="view hidden">
+  <div class="view-header">
+    <div class="eyebrow">Step 1 of 3</div>
+    <h1>What are you carrying today?</h1>
+    <p>Write what's on your mind and Ihsan will find the closest feeling, or choose one yourself below.</p>
+  </div>
+  <div class="free-text">
+    <label for="free-text-input">Describe how you're feeling, in your own words</label>
+    <textarea id="free-text-input" placeholder="I've felt distant from everyone lately, even in prayer..."></textarea>
+    <div class="free-text-row">
+      <span class="hint-small">Stays on this device. Nothing is sent anywhere.</span>
+      <button class="btn btn-primary" onclick="submitFreeText()">Find my reflection</button>
+    </div>
+    <div id="match-result" class="match-result" hidden></div>
+  </div>
+  <div class="group-label">Difficult emotions</div>
+  <div class="emotion-grid" id="grid-difficult"></div>
+  <div class="group-label">Uplifting emotions</div>
+  <div class="emotion-grid" id="grid-uplifting"></div>
+</div>
+
+<div id="view-reflect" class="view hidden">
+  <button class="back-link" onclick="goTo('select')">&larr; Choose a different feeling</button>
+  <div class="refl-card">
+    <span class="refl-tag" id="refl-category"></span>
+    <h1 id="refl-emotion"></h1>
+    <div class="verse-block">
+      <p class="verse-text" id="refl-verse-text"></p>
+      <p class="verse-ref" id="refl-verse-ref"></p>
+    </div>
+    <div class="refl-section"><h4>Reflection</h4><p id="refl-body"></p></div>
+    <div class="action-box"><h4>Try this today</h4><p id="refl-action"></p></div>
+    <div class="refl-section"><h4>Write into this</h4><ul class="prompt-list" id="refl-prompts"></ul></div>
+    <div class="journal-entry-box">
+      <label for="journal-input">Your own words (optional)</label>
+      <textarea id="journal-input" placeholder="What does this bring up for you?"></textarea>
+      <div class="row-end">
+        <span class="save-msg" id="save-msg"></span>
+        <button class="btn btn-primary" onclick="saveJournalEntry()">Save to journal</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="view-journal" class="view hidden">
+  <div class="view-header">
+    <div class="eyebrow">Your private record</div>
+    <h1>Journal</h1>
+    <p>Every reflection you've saved, stored only in this browser.</p>
+  </div>
+  <div class="toolbar no-print">
+    <input type="text" id="journal-search" placeholder="Search your entries..." oninput="renderJournal()">
+    <select id="journal-filter" onchange="renderJournal()"></select>
+    <button class="btn btn-sm btn-quiet" onclick="window.print()">Print</button>
+  </div>
+  <div id="journal-content"></div>
+</div>
+
+<div id="view-dashboard" class="view hidden">
+  <div class="view-header">
+    <div class="eyebrow">Your journey</div>
+    <h1>Dashboard</h1>
+    <p>A gentle look at how you've been reflecting.</p>
+  </div>
+  <div class="stat-grid" id="stat-grid"></div>
+  <div class="group-label" style="margin-top:0">What you've felt most</div>
+  <div id="bars"></div>
+  <div class="group-label">Last 30 days</div>
+  <div class="cal" id="cal"></div>
+  <div class="cal-legend">Each square is a day. Filled squares are days you reflected.</div>
+  <div class="group-label">Recent reflections</div>
+  <div class="entry-list" id="dashboard-recent"></div>
+</div>
+
+<div id="view-data" class="view hidden">
+  <div class="view-header">
+    <div class="eyebrow">Your data</div>
+    <h1>Backup &amp; privacy</h1>
+    <p>Everything you write lives in this browser on this device only.</p>
+  </div>
+  <div class="panel" style="margin-top:26px">
+    <h3>Back up your journal</h3>
+    <p>Save a copy of every entry as a file you keep. Do this occasionally, because clearing your browser
+    data will erase entries that have no backup.</p>
+    <div class="panel-row">
+      <button class="btn btn-sm btn-primary" onclick="exportJSON()">Download backup (.json)</button>
+      <button class="btn btn-sm btn-quiet" onclick="exportText()">Download as text (.txt)</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Restore from a backup</h3>
+    <p>Load a previously downloaded .json backup. Entries are merged with what's already here, and
+    duplicates are skipped.</p>
+    <div class="panel-row">
+      <input type="file" id="import-file" accept="application/json,.json" style="font-size:13px">
+      <button class="btn btn-sm btn-quiet" onclick="importJSON()">Restore</button>
+    </div>
+  </div>
+  <div class="panel">
+    <h3>Where your reflections are stored</h3>
+    <p style="margin:0">Ihsan runs entirely on your device. There is no account and no server
+    storing anything. Your entries are saved in this browser's local
+    storage, which means they stay on this device and in this browser. They will not appear if you
+    open the file in a different browser, and clearing site data will remove them.</p>
+    <div class="notice">Using a shared or public computer? Download a backup when you finish, then
+    use “Erase everything” below.</div>
+  </div>
+  <div class="panel">
+    <h3>Erase everything</h3>
+    <p>Permanently deletes every entry stored in this browser. This cannot be undone.</p>
+    <div class="panel-row"><button class="btn btn-sm btn-danger" onclick="clearAll()">Erase all entries</button></div>
+  </div>
+  <div class="panel">
+    <h3>Licence</h3>
+    <p style="margin:0">© The Steady Shelf. For personal use by the purchaser and their immediate household.
+    Not for resale, redistribution, or sharing. Verse lines are English renderings of meaning; the
+    Quran is its Arabic original. Not tafsir, not a fatwa, and not a substitute for a qualified
+    scholar, a doctor, or a mental health professional.</p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const EMOTIONS = [
+ {
+  "name": "Sadness",
+  "cat": "difficult",
+  "verse": "Do not grieve; indeed, Allah is with us.",
+  "ref": "Surah At-Tawbah 9:40",
+  "body": "These words were said in the tightest corner of the Prophet's life (peace be upon him), hidden in a cave, hunted, with no visible way out. Sadness was not denied there; it was answered with company. Whatever you are carrying today, you are not carrying it in an empty room.",
+  "action": "Say the hardest sentence about today out loud, and follow it with: “and Allah is with me.” Notice what changes in your chest.",
+  "prompts": [
+   "What exactly am I sad about: the event, or what I think it means about me?",
+   "Where have I felt accompanied, even slightly, in the last week?",
+   "What would I say to a friend carrying this same sadness?"
+  ]
+ },
+ {
+  "name": "Anxiety",
+  "cat": "difficult",
+  "verse": "Truly, in the remembrance of Allah do hearts find rest.",
+  "ref": "Surah Ar-Ra'd 13:28",
+  "body": "Anxiety is usually the mind trying to hold outcomes that were never in its hands. Remembrance is not a distraction from the worry. It is the act of handing back the part of the load that was never yours to lift.",
+  "action": "Set a timer for two minutes. Breathe slowly and repeat one short dhikr, releasing a single worry with each exhale.",
+  "prompts": [
+   "List every worry on my mind. Which of these can I actually act on today?",
+   "What is the worst outcome I keep rehearsing, and how likely is it, honestly?",
+   "What would today look like if I trusted that the outcome was handled?"
+  ]
+ },
+ {
+  "name": "Loneliness",
+  "cat": "difficult",
+  "verse": "We are closer to him than his jugular vein.",
+  "ref": "Surah Qaf 50:16",
+  "body": "Loneliness insists that no one sees you. The Quran answers with nearness described in the language of the body itself, closer than the vein in your own neck. You are witnessed even in an empty room, even at 3am, even when no one texts back.",
+  "action": "Make one honest dua tonight in your own language, not formal, not performed, as though speaking to someone sitting beside you.",
+  "prompts": [
+   "When did I last feel truly known? What made that possible?",
+   "Who could I reach out to this week, and what has stopped me so far?",
+   "What does my loneliness want me to believe about myself that isn't true?"
+  ]
+ },
+ {
+  "name": "Fear",
+  "cat": "difficult",
+  "verse": "Allah is sufficient for us, and He is the best Disposer of affairs.",
+  "ref": "Surah Aal-e-Imran 3:173",
+  "body": "Fear shrinks the world down to the size of the threat in front of you. This verse doesn't argue that the threat isn't real. It simply moves the question of who is managing the outcome out of your hands and into safer ones.",
+  "action": "Name the specific fear out loud. Then say “Hasbunallahu wa ni'mal wakeel” twice, slowly, after it.",
+  "prompts": [
+   "What am I actually afraid of: the event itself, or how I'd cope with it?",
+   "What have I survived before that I was equally afraid of?",
+   "What is one preparation I can make, so the rest can be left to Allah?"
+  ]
+ },
+ {
+  "name": "Emptiness",
+  "cat": "difficult",
+  "verse": "Whoever turns away from My remembrance will have a straitened life.",
+  "ref": "Surah Taha 20:124",
+  "body": "Emptiness is rarely a shortage of things. More often it is distance from the source that fills. This verse reads less like a punishment and more like a diagnosis, which makes the feeling useful information rather than a flaw to hide.",
+  "action": "Choose one small act of remembrance today, a single page, a slow prayer, and do only that, without rushing to the next thing.",
+  "prompts": [
+   "When did this numbness start? What was happening in my life then?",
+   "What used to make me feel alive that I've quietly stopped doing?",
+   "What is the smallest possible step back toward that?"
+  ]
+ },
+ {
+  "name": "Stress",
+  "cat": "difficult",
+  "verse": "Allah does not burden a soul beyond what it can bear.",
+  "ref": "Surah Al-Baqarah 2:286",
+  "body": "Stress tells you the load is too heavy. The Quran makes a quieter claim: it isn't, though carrying it alone, without rest, and without help usually is. The verse is about capacity, not about doing everything at once.",
+  "action": "Write out everything on your plate, then circle only what genuinely needs you today. Let the rest wait until tomorrow.",
+  "prompts": [
+   "What am I carrying that isn't actually mine to carry?",
+   "What would I take off the list if no one would judge me for it?",
+   "Who could I ask for help, and what exactly would I ask for?"
+  ]
+ },
+ {
+  "name": "Grief",
+  "cat": "difficult",
+  "verse": "Indeed we belong to Allah, and indeed to Him we will return.",
+  "ref": "Surah Al-Baqarah 2:156",
+  "body": "This is the phrase Muslims reach for first in loss, not to rush past the pain, but to set it inside something larger than the loss itself. Grief is not a lack of patience. It is love with nowhere left to go.",
+  "action": "Say this phrase slowly, then spend five minutes writing about what you miss, without trying to feel better by the end.",
+  "prompts": [
+   "What do I miss most specifically: a habit, a sound, a way I was seen?",
+   "What would I want to say to them if I could, right now?",
+   "What part of them do I want to keep alive in how I live?"
+  ]
+ },
+ {
+  "name": "Regret",
+  "cat": "difficult",
+  "verse": "Do not despair of the mercy of Allah; indeed, He forgives all sins.",
+  "ref": "Surah Az-Zumar 39:53",
+  "body": "Regret keeps replaying a choice you cannot unmake. This verse does not erase the choice. It removes the ceiling you have quietly placed on what can still be repaired from here.",
+  "action": "Write the regret in one sentence. Underneath it, write one concrete step you can take this week because of it.",
+  "prompts": [
+   "What did that choice cost me, and what did it teach me?",
+   "What am I still punishing myself for that I would forgive in someone else?",
+   "What can still be repaired, even partially?"
+  ]
+ },
+ {
+  "name": "Guilt",
+  "cat": "difficult",
+  "verse": "Turn to Allah in sincere repentance.",
+  "ref": "Surah At-Tahrim 66:8",
+  "body": "Guilt that moves you toward change is doing its job. Guilt that just circles is often ego mistaking self-punishment for accountability. Sincere repentance is forward-facing: it names the thing, and then it moves.",
+  "action": "Make tawbah for one specific thing. Then decide the single action that would make amends, and do it, instead of only feeling bad.",
+  "prompts": [
+   "What exactly did I do, stated plainly, without exaggerating or minimising?",
+   "What would genuine repair look like here?",
+   "What condition or habit made this likely, and what changes it?"
+  ]
+ },
+ {
+  "name": "Frustration",
+  "cat": "difficult",
+  "verse": "Do not weaken and do not grieve.",
+  "ref": "Surah Aal-e-Imran 3:139",
+  "body": "Frustration almost always means you care about something that isn't going the way it should. The caring is worth keeping. The exhaustion around it is what needs tending.",
+  "action": "Step away from the source of frustration for ten minutes before you respond to it. Decide your response from the calmer version of yourself.",
+  "prompts": [
+   "What outcome did I expect, and where did reality diverge from it?",
+   "How much of this is within my control?",
+   "What would patience actually look like here, in behaviour, not in feeling?"
+  ]
+ },
+ {
+  "name": "Spiritual burnout",
+  "cat": "difficult",
+  "verse": "Did We not expand for you your breast? And We removed from you your burden.",
+  "ref": "Surah Ash-Sharh 94:1-2",
+  "body": "Feeling depleted in worship is not proof of weak faith. It is usually proof that you have been running without rest. Relief in this surah is described as something given, not something you manufacture by pushing harder.",
+  "action": "Return to the one act of worship that used to feel easy, and do only that this week. Add nothing else.",
+  "prompts": [
+   "When did worship start feeling heavy instead of steadying?",
+   "Am I measuring my deen by feeling, or by consistency?",
+   "What is the smallest practice I could genuinely keep for 30 days?"
+  ]
+ },
+ {
+  "name": "Envy",
+  "cat": "difficult",
+  "verse": "Do not wish for what Allah has given some of you over others.",
+  "ref": "Surah An-Nisa 4:32",
+  "body": "Envy measures your unedited life against someone else's highlight reel. It never accounts for what they are carrying that you cannot see, or for the fact that their portion was never subtracted from yours.",
+  "action": "Make dua for the person you envy, that they keep and grow what they have. It softens comparison faster than willpower does.",
+  "prompts": [
+   "What specifically do I want that they have: the thing, or what I think it would prove?",
+   "What have I been given that I've stopped noticing?",
+   "What is one step toward that thing that is actually available to me?"
+  ]
+ },
+ {
+  "name": "Anger",
+  "cat": "difficult",
+  "verse": "Those who restrain anger and pardon people — Allah loves the doers of good.",
+  "ref": "Surah Aal-e-Imran 3:134",
+  "body": "Restraint here is not suppression. It is a pause long enough to answer from your principles instead of from the surge. The anger can be honest and the response can still be chosen.",
+  "action": "Change your posture: if standing, sit; if sitting, lie down. Let the body signal calm before the mouth speaks.",
+  "prompts": [
+   "What boundary or value of mine was crossed?",
+   "What do I want to happen next: to be right, or for things to be repaired?",
+   "What would I regret saying tomorrow?"
+  ]
+ },
+ {
+  "name": "Shame",
+  "cat": "difficult",
+  "verse": "Whoever does a wrong, then seeks forgiveness of Allah, will find Allah Forgiving and Merciful.",
+  "ref": "Surah An-Nisa 4:110",
+  "body": "Shame says you are the mistake. This verse addresses people mid-mistake and still holds the door open. The relationship is not cancelled by the failure. Guilt says ‘I did something wrong.’ Shame says ‘I am wrong.’ Only one of those is true.",
+  "action": "Write both sentences, “I did something wrong” and “I am wrong”, and cross out the one that is a lie.",
+  "prompts": [
+   "Whose voice is this shame speaking in?",
+   "What would I need to hear to believe I'm still worthy of return?",
+   "Who is one safe person I could tell a version of this to?"
+  ]
+ },
+ {
+  "name": "Overwhelm",
+  "cat": "difficult",
+  "verse": "So verily, with hardship comes ease; verily, with hardship comes ease.",
+  "ref": "Surah Ash-Sharh 94:5-6",
+  "body": "Overwhelm compresses everything into one unbearable mass. Note that the verse repeats itself, as if to say the promise needs hearing twice on the days one hearing isn't enough. Naming the pieces is usually the first relief, before any of them are solved.",
+  "action": "Write down every single thing weighing on you, unsorted. On paper it is almost always smaller than it felt in your head.",
+  "prompts": [
+   "What is the one thing that, if handled, would quiet the rest?",
+   "What can wait a week without real consequence?",
+   "What ease has already arrived that I haven't stopped to register?"
+  ]
+ },
+ {
+  "name": "Doubt",
+  "cat": "difficult",
+  "verse": "And those who strive for Us — We will surely guide them to Our ways.",
+  "ref": "Surah Al-Ankabut 29:69",
+  "body": "Doubt is not automatically a spiritual failure. Often it is the discomfort of genuinely searching rather than coasting. The promise here is attached to striving, not to certainty. Guidance meets the one who keeps walking.",
+  "action": "Write the doubt down in plain words, then take it to one reliable source or trusted person this week. Don't leave it to spiral alone.",
+  "prompts": [
+   "What exactly am I doubting: a belief, an experience, or a person who represented it?",
+   "What have I not yet honestly investigated?",
+   "What do I still find true, even now?"
+  ]
+ },
+ {
+  "name": "Gratitude",
+  "cat": "uplifting",
+  "verse": "If you are grateful, I will surely increase you.",
+  "ref": "Surah Ibrahim 14:7",
+  "body": "Gratitude in the Quran is not merely a mood. It is a practice with its own momentum, where the act of noticing good is itself the mechanism by which more of it arrives.",
+  "action": "Name three specific things from today, not generic ones, and say alhamdulillah for each by name.",
+  "prompts": [
+   "What went right today that I would have missed if I hadn't looked?",
+   "Who in my life deserves thanks that I've never said out loud?",
+   "What hardship, in hindsight, turned out to be a mercy?"
+  ]
+ },
+ {
+  "name": "Peace",
+  "cat": "uplifting",
+  "verse": "It is He who sent down tranquility into the hearts of the believers.",
+  "ref": "Surah Al-Fath 48:4",
+  "body": "Sakinah is described as something sent down, arriving rather than achieved. When peace does arrive, it is worth noticing where it came from, so you know the road back the next time it's gone.",
+  "action": "Sit inside this calm for a few minutes without reaching for your phone. Let it settle instead of rushing past it.",
+  "prompts": [
+   "What conditions made this peace possible?",
+   "What have I recently removed from my life that lightened me?",
+   "How can I protect this state in the coming week?"
+  ]
+ },
+ {
+  "name": "Hope",
+  "cat": "uplifting",
+  "verse": "Do not despair of relief from Allah.",
+  "ref": "Surah Yusuf 12:87",
+  "body": "Hope grounded in Allah's mercy isn't naive optimism. It is a reasonable response to a long track record of relief arriving after hardship. Yaqub said this while still, outwardly, having lost everything.",
+  "action": "Write down what you're hoping for, then take one small practical step toward it today.",
+  "prompts": [
+   "What am I hoping for, stated concretely?",
+   "What have I already survived that once seemed impossible?",
+   "What is the next right step, regardless of the outcome?"
+  ]
+ },
+ {
+  "name": "Love",
+  "cat": "uplifting",
+  "verse": "And He placed between you affection and mercy.",
+  "ref": "Surah Ar-Rum 30:21",
+  "body": "The Quran treats love between people as a sign, not a distraction from faith but evidence pointing back to its Source. Affection and mercy are named as things placed there deliberately.",
+  "action": "Tell one person in your life, plainly and specifically, what you appreciate about them today.",
+  "prompts": [
+   "Who has loved me well, and how did they show it?",
+   "Where am I withholding warmth I could easily give?",
+   "What kind of love do I want to be known for?"
+  ]
+ },
+ {
+  "name": "Joy",
+  "cat": "uplifting",
+  "verse": "In the bounty of Allah and in His mercy — in that let them rejoice.",
+  "ref": "Surah Yunus 10:58",
+  "body": "Joy rooted in gratitude doesn't need to be earned or justified or apologised for. The verse doesn't merely permit rejoicing. It instructs it.",
+  "action": "Let yourself fully enjoy one good thing today without immediately scanning for what could go wrong next.",
+  "prompts": [
+   "What is delighting me right now?",
+   "What do I do when I catch myself being happy, and why?",
+   "How do I want to share this joy rather than guard it?"
+  ]
+ },
+ {
+  "name": "Purpose",
+  "cat": "uplifting",
+  "verse": "I did not create jinn and mankind except to worship Me.",
+  "ref": "Surah Adh-Dhariyat 51:56",
+  "body": "Purpose can feel abstract until it is tied to something as concrete as how you spend the next hour. Worship in this sense is wide enough to include work, care, study and rest, when the intention is set.",
+  "action": "Choose one ordinary task today and do it with the explicit intention of worship.",
+  "prompts": [
+   "What am I doing with my time that I would defend as meaningful?",
+   "Where does my daily life and my stated purpose disagree?",
+   "What one thing would I regret never having done?"
+  ]
+ },
+ {
+  "name": "Forgiveness",
+  "cat": "uplifting",
+  "verse": "Let them pardon and overlook. Would you not love that Allah should forgive you?",
+  "ref": "Surah An-Nur 24:22",
+  "body": "Forgiving someone doesn't require forgetting what happened or pretending it didn't hurt. It means releasing your claim to carry it as a weapon, which is heavier for the one holding it than the one it's aimed at.",
+  "action": "Think of one person you're holding something against, and make a brief dua for their ease.",
+  "prompts": [
+   "What am I still holding, and what has holding it cost me?",
+   "What would forgiveness change in my daily life?",
+   "Does forgiving require reconciliation here, or just release?"
+  ]
+ },
+ {
+  "name": "Mercy",
+  "cat": "uplifting",
+  "verse": "My mercy encompasses all things.",
+  "ref": "Surah Al-A'raf 7:156",
+  "body": "Mercy described this widely is meant to be extended, not only received. It sets a standard for how you treat whatever is fragile around you, including yourself.",
+  "action": "Extend one deliberate act of mercy today to someone who hasn't earned it from you.",
+  "prompts": [
+   "Where have I received mercy I didn't deserve?",
+   "Who in my life is struggling in a way I've judged rather than helped?",
+   "Where am I harshest with myself, and what would mercy sound like there?"
+  ]
+ },
+ {
+  "name": "Courage",
+  "cat": "uplifting",
+  "verse": "Do not fear and do not grieve.",
+  "ref": "Surah Fussilat 41:30",
+  "body": "Courage in the Quran is not the absence of fear. It is steadfastness in the presence of it. This verse is addressed to those who stayed the course, and the reassurance arrives in the middle of the difficulty, not after.",
+  "action": "Do the one thing you've been avoiding out of fear, in its smallest possible version, today.",
+  "prompts": [
+   "What have I been putting off because it frightens me?",
+   "What is the smallest version of that step?",
+   "Who do I become if I keep avoiding it?"
+  ]
+ },
+ {
+  "name": "Tawakkul",
+  "cat": "uplifting",
+  "verse": "And whoever relies upon Allah — He is sufficient for him.",
+  "ref": "Surah At-Talaq 65:3",
+  "body": "Tawakkul pairs effort with release: you still tie the camel, and then you stop pretending you control what happens after. It is not passivity. It is doing your part fully and refusing to carry the rest.",
+  "action": "Do everything within your control on one worry today, then consciously hand over the outcome.",
+  "prompts": [
+   "What part of this is genuinely mine to do?",
+   "What am I gripping that was never in my hands?",
+   "What would I do differently today if I trusted the outcome was handled?"
+  ]
+ }
+];
+const KEYWORDS = [{"name": "Sadness", "keys": ["sad*", "unhappy", "heartbroken", "heartbreak*", "cry*", "cried", "tears", "tearful", "depress*", "miserable", "gloomy", "feeling down", "feel down", "so down", "feeling low", "feel low", "hurt*", "broken", "sorrow*", "upset", "devastat*", "heavy heart", "heart is heavy", "disappoint*"]}, {"name": "Anxiety", "keys": ["anxi*", "worr*", "nervous*", "panic*", "on edge", "racing thoughts", "restless", "uneasy", "overthink*", "can't sleep", "cant sleep", "insomnia", "what if", "jittery", "heart racing", "apprehensive"]}, {"name": "Loneliness", "keys": ["alone", "lonel*", "isolat*", "no one", "nobody", "left out", "no friends", "unseen", "invisible", "ignored", "excluded", "abandon*", "by myself", "distant from everyone", "far from everyone", "homesick", "miss my family"]}, {"name": "Fear", "keys": ["scared", "afraid", "fear*", "terrif*", "frighten*", "dread*", "petrified", "unsafe", "what will happen"]}, {"name": "Emptiness", "keys": ["empty", "emptiness", "numb*", "hollow", "nothing matters", "disconnected", "pointless", "meaningless", "feel nothing", "void", "going through the motions", "apath*", "lost"]}, {"name": "Stress", "keys": ["stress*", "pressure", "deadline*", "no time", "exam*", "workload", "hectic", "juggl*", "so busy", "too busy"]}, {"name": "Grief", "keys": ["grie*", "loss", "lost my", "died", "death", "passed away", "funeral", "miss him", "miss her", "mourn*", "bereave*", "janazah", "miscarriage"]}, {"name": "Regret", "keys": ["regret*", "wish i had", "wish i hadn", "if only", "should have", "shouldn't have", "should not have", "missed my chance", "wasted"]}, {"name": "Guilt", "keys": ["guilt*", "my fault", "i messed up", "sinned", "sin", "sins", "i hurt", "feel bad about", "let them down", "let him down", "let her down", "blame myself"]}, {"name": "Frustration", "keys": ["frustrat*", "annoy*", "fed up", "irritat*", "stuck", "nothing works", "not working", "impatient", "sick of"]}, {"name": "Spiritual burnout", "keys": ["burnt out", "burned out", "burnout", "exhausted", "drained", "tired of praying", "tired of worship", "spiritually dry", "can't pray", "cant pray", "missed prayers", "missing prayers", "low iman", "iman is low", "weak iman", "no khushu", "far from allah", "distant from allah", "even in prayer", "in prayer", "prayers feel"]}, {"name": "Envy", "keys": ["envy", "envious", "jealous*", "everyone else has", "comparing", "compare myself", "why not me", "others have"]}, {"name": "Anger", "keys": ["angry", "anger", "mad", "furious", "rage", "resent*", "livid", "hate", "so done with", "snapped", "yelled", "shouted"]}, {"name": "Shame", "keys": ["asham*", "shame*", "embarrass*", "worthless", "disgusted with myself", "humiliat*", "hate myself", "not good enough", "failure", "disgrace*"]}, {"name": "Overwhelm", "keys": ["overwhelm*", "too much", "drowning", "can't cope", "cant cope", "falling apart", "can't handle", "cant handle", "everything at once", "swamped", "breaking down", "can't keep up", "cant keep up"]}, {"name": "Doubt", "keys": ["doubt*", "questioning my faith", "unsure of my faith", "confused about", "losing faith", "lost faith", "lost my faith", "not sure what i believe", "sceptic*", "skeptic*", "why would allah", "does allah", "is allah"]}, {"name": "Gratitude", "keys": ["grateful", "gratitude", "thankful", "thank*", "blessed", "blessing*", "alhamdulillah", "appreciat*"]}, {"name": "Peace", "keys": ["peace*", "calm*", "content", "contented", "settled", "at ease", "serene", "tranquil*", "relaxed", "sakinah"]}, {"name": "Hope", "keys": ["hope*", "optimis*", "looking forward", "better days", "despair*", "give up", "giving up"]}, {"name": "Love", "keys": ["love*", "in love", "affection*", "cherish*", "marriage", "nikah", "my spouse"]}, {"name": "Joy", "keys": ["joy*", "happy", "happiness", "delight*", "excit*", "over the moon", "glad", "cheerful", "elated", "celebrat*"]}, {"name": "Purpose", "keys": ["purpose*", "meaning", "direction", "why am i here", "calling", "what am i doing with my life", "aimless", "next step", "my path"]}, {"name": "Forgiveness", "keys": ["forgiv*", "let go", "pardon", "grudge*", "can't forgive", "hurt me", "betray*"]}, {"name": "Mercy", "keys": ["mercy", "merciful", "compassion*", "rahma*", "kindness", "be kind to myself", "gentle with myself"]}, {"name": "Courage", "keys": ["courage*", "brave*", "face my fear", "step out", "need strength", "strength", "confidence", "stand up for"]}, {"name": "Tawakkul", "keys": ["trust in allah", "trusting allah", "tawakkul", "reliance", "rely on allah", "leave it to allah", "leaving it to allah", "surrender", "out of my control", "out of my hands", "uncertain*", "don't know what will happen", "dont know what will happen", "in allah's hands"]}];
+const EMOTION_MAP = Object.fromEntries(EMOTIONS.map(e => [e.name, e]));
+const STORE_KEY = "ihsan_journal_entries_v2";
+let currentEmotion = null;
+
+/* ---------- storage ---------- */
+function getEntries(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  }catch(err){ return []; }
+}
+function setEntries(entries){
+  try{ localStorage.setItem(STORE_KEY, JSON.stringify(entries)); return true; }
+  catch(err){ return false; }
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._t); t._t = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function esc(s){ return String(s).replace(/[&<>"']/g, c => (
+  {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+/* ---------- navigation ---------- */
+function goTo(view){
+  document.querySelectorAll('.view, .view-wrap').forEach(v => v.classList.add('hidden'));
+  document.getElementById('view-' + view).classList.remove('hidden');
+  document.getElementById('topnav').classList.toggle('hidden', view === 'landing');
+  document.querySelectorAll('.nav-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.view === view));
+  if(view === 'journal') renderJournal();
+  if(view === 'dashboard') renderDashboard();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function buildGrids(){
+  EMOTIONS.forEach(e => {
+    const card = document.createElement('button');
+    card.className = 'emotion-card';
+    card.innerHTML = '<span class="name">' + esc(e.name) + '</span><span class="hint">' +
+      esc(e.ref) + '</span>';
+    card.onclick = () => openReflection(e.name);
+    document.getElementById('grid-' + e.cat).appendChild(card);
+  });
+  const sel = document.getElementById('journal-filter');
+  sel.innerHTML = '<option value="">All feelings</option>' +
+    EMOTIONS.map(e => '<option>' + esc(e.name) + '</option>').join('');
+}
+
+function submitFreeText(){
+  const raw = document.getElementById('free-text-input').value.trim();
+  const box = document.getElementById('match-result');
+  if(!raw){ toast('Write a line first, or pick a feeling below.'); return; }
+  const val = ' ' + raw.toLowerCase().replace(/[’‘]/g,"'").replace(/\s+/g,' ') + ' ';
+  const NEG = /\b(not|no|never|don't|dont|can't|cant|isn't|wasn't|haven't|hardly|barely|lost)\s+(\w+\s+){0,2}$/;
+  const FLIP = {Joy:'Sadness', Peace:'Anxiety', Love:'Loneliness', Courage:'Fear', Purpose:'Emptiness'};
+  const esc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const scores = {};
+  for(const k of KEYWORDS){
+    for(const key of k.keys){
+      const prefix = key.endsWith('*');
+      const word = prefix ? key.slice(0,-1) : key;
+      const re = new RegExp('\\b' + esc(word) + (prefix ? '' : '\\b'), 'g');
+      let m;
+      while((m = re.exec(val))){
+        let name = k.name;
+        if(NEG.test(val.slice(0, m.index))) name = FLIP[name] || name;
+        scores[name] = (scores[name] || 0) + (word.includes(' ') ? 2 : 1);
+      }
+    }
+  }
+  const ranked = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+  if(!ranked.length){
+    box.innerHTML = '<p>Ihsan couldn\'t tell which feeling those words are closest to. Try adding a line about how it feels, or choose the closest feeling below.</p>';
+    box.hidden = false; return;
+  }
+  const top = ranked[0][1];
+  const close = ranked.filter(r => r[1] >= top - 0.5).slice(0,3);
+  if(close.length === 1){ box.hidden = true; openReflection(close[0][0]); return; }
+  box.innerHTML = '<p>Your words sound closest to these. Choose the one that fits best:</p><div class="match-chips">' +
+    close.map(r => '<button type="button" onclick="openReflection(\'' + r[0] + '\')">' + r[0] + '</button>').join('') + '</div>';
+  box.hidden = false;
+}
+
+function openReflection(name){
+  const e = EMOTION_MAP[name];
+  if(!e) return;
+  currentEmotion = e;
+  document.getElementById('refl-category').textContent =
+    e.cat === 'difficult' ? 'Difficult emotion' : 'Uplifting emotion';
+  document.getElementById('refl-emotion').textContent = e.name;
+  document.getElementById('refl-verse-text').textContent = '“' + e.verse + '”';
+  document.getElementById('refl-verse-ref').textContent = e.ref + ' · meaning';
+  document.getElementById('refl-body').textContent = e.body;
+  document.getElementById('refl-action').textContent = e.action;
+  document.getElementById('refl-prompts').innerHTML =
+    e.prompts.map(p => '<li>' + esc(p) + '</li>').join('');
+  document.getElementById('journal-input').value = '';
+  document.getElementById('save-msg').textContent = '';
+  goTo('reflect');
+}
+
+function saveJournalEntry(){
+  const msg = document.getElementById('save-msg');
+  const text = document.getElementById('journal-input').value.trim();
+  if(!currentEmotion){ msg.textContent = 'Choose a feeling first.'; msg.classList.add('err'); return; }
+  const entries = getEntries();
+  entries.unshift({
+    id: 'e' + Date.now() + Math.random().toString(36).slice(2,7),
+    emotion: currentEmotion.name,
+    ref: currentEmotion.ref,
+    text: text || '(No note added)',
+    date: new Date().toISOString()
+  });
+  if(setEntries(entries)){
+    msg.classList.remove('err');
+    msg.textContent = 'Saved to your journal.';
+    toast('Saved · ' + currentEmotion.name);
+  } else {
+    msg.classList.add('err');
+    msg.textContent = 'Could not save. Your browser may be blocking local storage.';
+  }
+}
+
+function formatDate(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, {weekday:'short', month:'short', day:'numeric', year:'numeric'});
+}
+
+function entryHTML(en, withActions){
+  return '<div class="entry-item">' +
+    '<div class="meta"><span class="em">' + esc(en.emotion) + '</span>' +
+    '<span class="date">' + formatDate(en.date) + '</span></div>' +
+    '<p class="txt">' + esc(en.text) + '</p>' +
+    (en.ref ? '<p class="vref">' + esc(en.ref) + '</p>' : '') +
+    (withActions ? '<div class="entry-actions no-print">' +
+      '<button class="link-btn" onclick="openReflection(\'' + esc(en.emotion) + '\')">Open this reflection</button>' +
+      '<button class="link-btn danger" onclick="deleteEntry(\'' + en.id + '\')">Delete</button></div>' : '') +
+    '</div>';
+}
+
+function deleteEntry(id){
+  const entries = getEntries().filter(e => e.id !== id);
+  setEntries(entries); renderJournal(); toast('Entry deleted.');
+}
+
+function renderJournal(){
+  const container = document.getElementById('journal-content');
+  const q = (document.getElementById('journal-search').value || '').toLowerCase();
+  const filter = document.getElementById('journal-filter').value;
+  let entries = getEntries();
+  const total = entries.length;
+  if(filter) entries = entries.filter(e => e.emotion === filter);
+  if(q) entries = entries.filter(e =>
+    (e.text + ' ' + e.emotion).toLowerCase().includes(q));
+  if(total === 0){
+    container.innerHTML = '<div class="empty-state"><h3>Nothing here yet</h3>' +
+      '<p>Your saved reflections will appear here once you begin.</p>' +
+      '<button class="btn btn-primary" onclick="goTo(\'select\')">Begin a reflection</button></div>';
+    return;
+  }
+  if(entries.length === 0){
+    container.innerHTML = '<div class="empty-state"><h3>No matching entries</h3>' +
+      '<p>Try a different search or filter.</p></div>';
+    return;
+  }
+  container.innerHTML = '<p class="hint-small" style="margin:14px 0 0">Showing ' + entries.length +
+    ' of ' + total + ' entries</p><div class="entry-list">' +
+    entries.map(e => entryHTML(e, true)).join('') + '</div>';
+}
+
+function streak(entries){
+  const days = new Set(entries.map(e => new Date(e.date).toDateString()));
+  let count = 0; const d = new Date();
+  if(!days.has(d.toDateString())) d.setDate(d.getDate() - 1);
+  while(days.has(d.toDateString())){ count++; d.setDate(d.getDate() - 1); }
+  return count;
+}
+
+function renderDashboard(){
+  const entries = getEntries();
+  const counts = {};
+  entries.forEach(e => counts[e.emotion] = (counts[e.emotion] || 0) + 1);
+  const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+  const days = new Set(entries.map(e => new Date(e.date).toDateString()));
+  const stats = [
+    {label:'Total reflections', value: entries.length},
+    {label:'Days you\'ve reflected', value: days.size},
+    {label:'Current streak', value: streak(entries) + (streak(entries) === 1 ? ' day' : ' days')},
+    {label:'Most reflected feeling', value: sorted.length ? sorted[0][0] : '—'},
+  ];
+  document.getElementById('stat-grid').innerHTML = stats.map(s =>
+    '<div class="stat-card"><div class="label">' + s.label + '</div><div class="value">' +
+    esc(s.value) + '</div></div>').join('');
+
+  const max = sorted.length ? sorted[0][1] : 1;
+  document.getElementById('bars').innerHTML = sorted.length
+    ? sorted.slice(0,6).map(([name,n]) =>
+        '<div class="bar-row"><span class="bar-name">' + esc(name) + '</span>' +
+        '<span class="bar-track"><span class="bar-fill" style="width:' +
+        Math.round(n/max*100) + '%"></span></span><span class="bar-val">' + n + '</span></div>').join('')
+    : '<p class="hint-small">Nothing to show yet.</p>';
+
+  let cal = '';
+  for(let i = 29; i >= 0; i--){
+    const d = new Date(); d.setDate(d.getDate() - i);
+    cal += '<div class="cal-cell' + (days.has(d.toDateString()) ? ' on' : '') +
+      '" title="' + d.toDateString() + '"></div>';
+  }
+  document.getElementById('cal').innerHTML = cal;
+
+  document.getElementById('dashboard-recent').innerHTML = entries.length
+    ? entries.slice(0,5).map(e => entryHTML(e, false)).join('')
+    : '<div class="empty-state"><h3>No reflections yet</h3><p>Start your first reflection to see your journey take shape.</p>' +
+      '<button class="btn btn-primary" onclick="goTo(\'select\')">Begin a reflection</button></div>';
+}
+
+/* ---------- data ---------- */
+function download(filename, text, type){
+  const blob = new Blob([text], {type: type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename; document.body.appendChild(a); a.click();
+  document.body.removeChild(a); setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+function stamp(){ return new Date().toISOString().slice(0,10); }
+function exportJSON(){
+  const entries = getEntries();
+  if(!entries.length){ toast('Nothing to back up yet.'); return; }
+  download('ihsan-journal-' + stamp() + '.json',
+    JSON.stringify({app:'Ihsan', version:2, exported:new Date().toISOString(), entries}, null, 2),
+    'application/json');
+  toast('Backup downloaded.');
+}
+function exportText(){
+  const entries = getEntries();
+  if(!entries.length){ toast('Nothing to export yet.'); return; }
+  const body = entries.map(e =>
+    formatDate(e.date) + '\n' + e.emotion + (e.ref ? '  ·  ' + e.ref : '') + '\n\n' +
+    e.text + '\n\n' + '-'.repeat(48)).join('\n\n');
+  download('ihsan-journal-' + stamp() + '.txt',
+    'IHSAN · MY REFLECTION JOURNAL\nExported ' + formatDate(new Date().toISOString()) +
+    '\n\n' + '='.repeat(48) + '\n\n' + body + '\n', 'text/plain');
+  toast('Text file downloaded.');
+}
+function importJSON(){
+  const input = document.getElementById('import-file');
+  const file = input.files && input.files[0];
+  if(!file){ toast('Choose a backup file first.'); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      const incoming = Array.isArray(data) ? data : data.entries;
+      if(!Array.isArray(incoming)) throw new Error('bad file');
+      const existing = getEntries();
+      const seen = new Set(existing.map(e => e.date + '|' + e.emotion + '|' + e.text));
+      let added = 0;
+      incoming.forEach(e => {
+        if(!e || !e.date || !e.emotion) return;
+        const key = e.date + '|' + e.emotion + '|' + e.text;
+        if(!seen.has(key)){
+          existing.push({id: e.id || ('e' + Date.now() + Math.random().toString(36).slice(2,7)),
+            emotion: e.emotion, ref: e.ref || '', text: e.text || '', date: e.date});
+          seen.add(key); added++;
+        }
+      });
+      existing.sort((a,b) => new Date(b.date) - new Date(a.date));
+      setEntries(existing);
+      toast(added + (added === 1 ? ' entry restored.' : ' entries restored.'));
+      input.value = '';
+    }catch(err){ toast('That file could not be read as a backup.'); }
+  };
+  reader.readAsText(file);
+}
+function clearAll(){
+  if(!confirm('Permanently delete every entry stored in this browser? This cannot be undone.')) return;
+  setEntries([]); toast('All entries erased.');
+}
+
+document.querySelectorAll('.nav-btn').forEach(b =>
+  b.addEventListener('click', () => goTo(b.dataset.view)));
+buildGrids();
+goTo('landing');
+</script>
+</body>
+</html>
